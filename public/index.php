@@ -25,10 +25,11 @@ require_once '../vendor/autoload.php';
                                 <option value="https://www.vetropack.com/en/">VetroPack</option>
                                 <option value="https://www.kniha-jizd-zdarma.cz">Kniha-Jizd</option>
                                 <option value="https://www.logbookie.eu">Logbookie</option>
-                                <option value="https://www.crm-zdarma.cz/">CRM-zdarma</option>
+                                <option value="https://www.crm-zdarma.cz/">CRM-Zdarma</option>
                                 <option value="https://www.cez.cz">CEZ</option>
                                 <option value="https://igloonet.cz">Igloonet</option>
                                 <option value="https://portal.expanzo.com">Expanzo</option>
+                                <option value="https://www.lipsum.com">Lipsum</option>
                                 <option value="https://www.i-runs.com">i-runs</option>
                             </select>
                     </div>
@@ -37,7 +38,25 @@ require_once '../vendor/autoload.php';
                     </div>
 
                     <div class="form-group mt-3">
-                        <input id='other' class="form-check-input checker" type="checkbox" role="switch" />Other
+                        <input id='other' class="form-check-input" type="checkbox" role="switch" />Other
+                    </div>
+                    <hr/>
+
+                    <div class="form-group mt-3">
+                        <input name='robot' class="form-check-input" type="checkbox" role="switch" />Ignore Robot
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <input name='js' class="form-check-input" type="checkbox" role="switch" />Execute Javascript
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <input name='no_follow' class="form-check-input" type="checkbox" role="switch" />Accept No-follow links
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label>Crawl Limit</label>
+                        <input type="number" name='limit' min='1' value='10' class="form-control input-lg" />
                     </div>
 
                     <div class="form-group mt-3">

@@ -87,9 +87,9 @@ class CrawlerService
         return $this->crawlerObserver->response;
     }
 
-    public function failed()//:bool
+    public function failed()
     {
-        return $this->crawlerObserver->failed;// ? true : false;
+        return $this->crawlerObserver->failed;
     }
 }
 

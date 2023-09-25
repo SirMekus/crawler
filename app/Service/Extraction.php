@@ -34,8 +34,6 @@ class Extraction
                 
                 $email = str_replace($search, '', $email);
 
-                //echo "Email: ".$email.PHP_EOL;
-
                 if((!in_array($email, $emails)) and (!empty($email)))
                 {
                     $emails[] = $email;
@@ -68,7 +66,6 @@ class Extraction
                 $phone = !empty($node->getAttribute('href')) ? $node->getAttribute('href') : $node->textContent;
                 $phone = str_replace($search, '', $phone);
                 $phone = formatPhoneNumber($phone);
-                //echo "phone: ".$phone.PHP_EOL;
 
                 if((!in_array($phone, $phones)) and (!empty($phone)))
                 {

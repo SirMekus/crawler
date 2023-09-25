@@ -37,9 +37,6 @@ class Crawler extends CrawlObserver
         string $linkText = null,
     ): void
     {
-        // echo 'Crawling URL: ' . urldecode($url) . ' ... ' . PHP_EOL;
-        // echo 'Crawl result: ' . $response->getStatusCode() . ' - ' . $response->getReasonPhrase() . PHP_EOL;
-
         try
         {
             // Create a new DOMDocument
