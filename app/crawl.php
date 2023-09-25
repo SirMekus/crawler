@@ -14,8 +14,8 @@ $url = request([
 $crawler = new CrawlerService($url);
 
 $response = $crawler->setCurrentCrawlLimit()
-                    // ->acceptNofollowLinks()
-                    // ->ignoreRobots()
+                    ->acceptNofollowLinks()
+                    ->ignoreRobots()
                     ->setCrawlProfile()
                     ->crawl();
 
@@ -27,6 +27,7 @@ if($crawler->failed())
 }
 
 // dd(implode(', ', $response['emails']));
+//dd($response);
 
 return response([
     'emails'=>implode(', ', $response['emails']),

@@ -10,28 +10,33 @@ function rearrangeIndex(array &$array)
 }
 
 // Create a formatting function
-function formatPhoneNumber($phone)
+function formatPhoneNumber($phoneNumber)
 {
-    $phone= "+".$phone;
-    
-    // Pass phone number in preg_match function
-    if(preg_match(
-        '/^\+[0-9]([0-9]{3})([0-9]{3})([0-9]{4})$/', 
-    $phone, $value)) {
-      
-        // Store value in format variable
-        $format = $value[1] . '-' . 
-            $value[2] . '-' . $value[3];
+    $phoneNumber = preg_replace('/[^0-9]/','',$phoneNumber);
+
+    if(strlen($phoneNumber) > 10) {
+        $countryCode = substr($phoneNumber, 0, strlen($phoneNumber)-10);
+        $areaCode = substr($phoneNumber, -10, 3);
+        $nextThree = substr($phoneNumber, -7, 3);
+        $lastFour = substr($phoneNumber, -4, 4);
+
+        $phoneNumber = '+'.$countryCode.' ('.$areaCode.') '.$nextThree.'-'.$lastFour;
     }
-    else {
-         
-        // If given number is invalid
-        echo "Invalid phone number <br>";
-        echo $phone;
+    else if(strlen($phoneNumber) == 10) {
+        $areaCode = substr($phoneNumber, 0, 3);
+        $nextThree = substr($phoneNumber, 3, 3);
+        $lastFour = substr($phoneNumber, 6, 4);
+
+        $phoneNumber = '('.$areaCode.') '.$nextThree.'-'.$lastFour;
     }
-      
-    // Print the given format
-    echo("$format" . "<br>");
+    else if(strlen($phoneNumber) == 7) {
+        $nextThree = substr($phoneNumber, 0, 3);
+        $lastFour = substr($phoneNumber, 3, 4);
+
+        $phoneNumber = $nextThree.'-'.$lastFour;
+    }
+
+    return $phoneNumber;
 }
 
 

@@ -1,6 +1,5 @@
 <?php
 require_once '../vendor/autoload.php';
-require_once '../env.php';
 ?>
 
 <!DOCTYPE html>
@@ -19,17 +18,24 @@ require_once '../env.php';
 
                 <form data-bc="myevent" id='form' action="<?php echo APP_URL."app/crawl.php"; ?>" 
                     method="post">
-                    <div class="form-group mt-3">
+                    <div class="form-group mt-3 pre-filled">
                             <select class="form-select" name="url">
                                 <option value="https://www.vetropack.com/en/">VetroPack</option>
                                 <option value="https://www.kniha-jizd-zdarma.cz">Kniha-Jizd</option>
                                 <option value="https://www.logbookie.eu">Logbookie</option>
-                                <option value="https://www.crm-zdarma.cz/cs">CRM-zdarma</option>
-                                <option value="https://www.cez.cz/cs">CEZ</option>
+                                <option value="https://www.crm-zdarma.cz/">CRM-zdarma</option>
+                                <option value="https://www.cez.cz">CEZ</option>
                                 <option value="https://igloonet.cz">Igloonet</option>
                                 <option value="https://portal.expanzo.com">Expanzo</option>
                                 <option value="https://www.i-runs.com">i-runs</option>
                             </select>
+                    </div>
+                    <div class="form-group mt-3 manual d-none">
+                        <input type="url" name='url' disabled class="form-control input-lg" placeholder="Enter URL here" />
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <input id='other' class="form-check-input checker" type="checkbox" role="switch" />Other
                     </div>
 
                     <div class="form-group mt-3">
@@ -53,29 +59,45 @@ require_once '../env.php';
 
             mmuo.registerEventListeners()
 
+            mmuo.on('#other', 'click', function(event){
+                const checked = event.target.checked;
+
+                const manual = document.querySelector(".manual");
+
+                const pre_filled = document.querySelector(".pre-filled");
+
+                manual.classList.toggle('d-none');
+
+                pre_filled.classList.toggle('d-none');
+
+                if(checked){
+                    pre_filled.children[0].setAttribute('disabled', 'disabled');
+                    manual.children[0].removeAttribute('disabled');
+                }
+                else{
+                    manual.children[0].setAttribute('disabled', 'disabled');
+                    pre_filled.children[0].removeAttribute('disabled');
+                }
+            })
+
             document.addEventListener("myevent", (event) => {
                 const data = event.detail.data.message;
-                console.log(data)
 
                 setTimeout(function(){
+                    const box = document.querySelector(".success")
 
-                
-                const box = document.querySelector(".success")
+                    box.replaceChildren();
 
-                box.replaceChildren();
+                    let emailParagraph = document.createElement("p");
+                    emailParagraph.classList.add('text-success');
+                    emailParagraph.innerHTML = `Emails Found: ${data?.emails}`
+                    box.appendChild(emailParagraph);
 
-                var emailParagraph = document.createElement("p");
-                emailParagraph.innerHTML = `Emails Found: ${data.emails}`
-                box.appendChild(emailParagraph);
-
-                var emailParagraph = document.createElement("p");
-                emailParagraph.innerHTML = `Phone Numbers Found: ${data.phones}`
-                box.appendChild(emailParagraph);
-            }, 2000);
-
-
-                console.log("I'm listening on a custom event");
-                //console.log(event.detail.data.message);
+                    let phoneParagraph = document.createElement("p");
+                    phoneParagraph.classList.add('text-success');
+                    phoneParagraph.innerHTML = `Phone Numbers Found: ${data?.phones}`
+                    box.appendChild(phoneParagraph);
+                }, 1000);
             });
         });
     </script>

@@ -50,9 +50,9 @@ class Crawler extends CrawlObserver
 
             $extractor = new Extraction($doc);
 
-            $this->emails = $extractor->extractEmail($this->emails);
+            $extractor->extractEmail($this->emails);
 
-            $this->phones = $extractor->extractPhone($this->phones);
+            $extractor->extractPhone($this->phones);
         }
         catch(ValueError $error)
         {
