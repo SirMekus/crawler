@@ -73,12 +73,16 @@ class CrawlerService
         return $this;
     }
 
+    public function executeJavascript():CrawlerService
+    {
+        $this->crawler->executeJavascript();
+
+        return $this;
+    }
+
     public function crawl()
     {
-        $this->crawler
-        // ->acceptNofollowLinks()
-        // ->ignoreRobots()
-        ->startCrawling($this->url);
+        $this->crawler->startCrawling($this->url);
 
         return $this->crawlerObserver->response;
     }

@@ -1,0 +1,13 @@
+:root{
+	--color-theme:#A3031C;
+}
+
+.text-home{color:var(--color-theme) !important;}
+
+.home-color{background-color:var(--color-theme) !important;}
+
+.btn-home{background-color:#A3031C; color:white} 
+
+.btn-home:hover{color:white} 
+
+.bg-indicator{background-color:var(--color-theme)}

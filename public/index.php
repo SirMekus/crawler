@@ -7,7 +7,9 @@ require_once '../vendor/autoload.php';
 
 <head>
     <title>Crawler</title>
-    <link rel="stylesheet" href="<?php echo APP_URL."node_modules/bootstrap/dist/css/bootstrap.min.css"; ?> " />
+    <?php
+    vite()
+    ?>
 </head>
 
 <body>
@@ -31,7 +33,7 @@ require_once '../vendor/autoload.php';
                             </select>
                     </div>
                     <div class="form-group mt-3 manual d-none">
-                        <input type="url" name='url' disabled class="form-control input-lg" placeholder="Enter URL here" />
+                        <input type="url" name='url' disabled value='https://' class="form-control input-lg" placeholder="Enter URL here" />
                     </div>
 
                     <div class="form-group mt-3">
@@ -49,59 +51,6 @@ require_once '../vendor/autoload.php';
             </div>
         </div>
     </div>
-
-    <script src="<?php echo APP_URL."node_modules/mmuo/dist/mmuo.umd.js"; ?>"></script>
-    <script src="<?php echo APP_URL."node_modules/axios/dist/axios.js"; ?>"></script>
-    <script src="<?php echo APP_URL."node_modules/bootstrap/dist/js/bootstrap.min.js"; ?>"></script>
-
-    <script>
-        window.addEventListener("DOMContentLoaded", function () {
-
-            mmuo.registerEventListeners()
-
-            mmuo.on('#other', 'click', function(event){
-                const checked = event.target.checked;
-
-                const manual = document.querySelector(".manual");
-
-                const pre_filled = document.querySelector(".pre-filled");
-
-                manual.classList.toggle('d-none');
-
-                pre_filled.classList.toggle('d-none');
-
-                if(checked){
-                    pre_filled.children[0].setAttribute('disabled', 'disabled');
-                    manual.children[0].removeAttribute('disabled');
-                }
-                else{
-                    manual.children[0].setAttribute('disabled', 'disabled');
-                    pre_filled.children[0].removeAttribute('disabled');
-                }
-            })
-
-            document.addEventListener("myevent", (event) => {
-                const data = event.detail.data.message;
-
-                setTimeout(function(){
-                    const box = document.querySelector(".success")
-
-                    box.replaceChildren();
-
-                    let emailParagraph = document.createElement("p");
-                    emailParagraph.classList.add('text-success');
-                    emailParagraph.innerHTML = `Emails Found: ${data?.emails}`
-                    box.appendChild(emailParagraph);
-
-                    let phoneParagraph = document.createElement("p");
-                    phoneParagraph.classList.add('text-success');
-                    phoneParagraph.innerHTML = `Phone Numbers Found: ${data?.phones}`
-                    box.appendChild(phoneParagraph);
-                }, 1000);
-            });
-        });
-    </script>
-
 </body>
 
 </html>

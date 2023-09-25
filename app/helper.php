@@ -39,6 +39,40 @@ function formatPhoneNumber($phoneNumber)
     return $phoneNumber;
 }
 
+function vite()
+{
+	$viteUrl = VITE_URL;
 
+	if(APP_MODE != 'production')
+	{
+		echo <<<EOD
+		<script type="module" src="{$viteUrl}@vite/client"></script>
+        <script type="module" src="{$viteUrl}src/main.js"></script>
+EOD;
+	}
+	else
+	{
+        $url = APP_URL;
+
+		$src = rootDir()."/dist/manifest.json";
+		
+		if(file_exists($src))
+		{
+			$content = file_get_contents($src);
+			
+			if($content)
+			{
+				$manifest = json_decode($content, true);
+			    $js = $manifest["src/main.js"]['file'];
+			    $css = $manifest["src/main.css"]['file'];
+	        }
+		
+		    echo <<<EOD
+		    <link rel="stylesheet" href="{$url}dist/{$css}" />
+		    <script type="module" src="{$url}dist/{$js}"></script>
+EOD;
+        }
+    }
+}
 
 ?>

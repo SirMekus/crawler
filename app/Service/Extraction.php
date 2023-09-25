@@ -13,15 +13,14 @@ class Extraction
 
     public function extractEmail(Array &$emails): void
     {
-        //$emails = [];
+        $search = ["mailto:", "Email:", 'Email', ' ', 'mail'];
 
-        $search = ["mailto:", "Email:", ' '];
-
-        // Define XPath expressions to locate contact details (modify these according to your webpage structure)
-        //$emailXPath = '//a[contains(@href, "mailto:")]';
-
+        // Define XPath expressions to locate email details 
         $emailXPath = [
             '//a[contains(@href, "mailto:")]',
+            '//p[contains(text(), "Mail:")]',
+            '//p[contains(text(), "Email")]',
+            '//li[contains(text(), "Email:")]'
         ];
 
         // Extract email addresses
@@ -47,13 +46,16 @@ class Extraction
 
     public function extractPhone(Array &$phones): void
     {
-        $search = ["tel:", "Telefon", "Phone:", ' '];
+        $search = ["tel:", "Telefon", 'Phone', ' ', "Telephone", ':'];
 
         $phoneXPath = [
             '//a[contains(@href, "tel:")]',
             '//p[contains(text(), "Phone:")]',
             '//p[contains(text(), "Phone")]',
-            '//li[contains(text(), "Telefon")]'
+            '//li[contains(text(), "Telefon")]',
+            '//li[contains(text(), "Telephone")]',
+            '//p[contains(text(), "Telephone:")]',
+            '//p[contains(text(), "Telephone")]',
         ];
 
         // Extract phone numbers
@@ -64,7 +66,7 @@ class Extraction
             foreach ($phoneNodes as $node) 
             {
                 $phone = !empty($node->getAttribute('href')) ? $node->getAttribute('href') : $node->textContent;
-                $phone = str_replace($search, '', $phone);//formatPhoneNumber
+                $phone = str_replace($search, '', $phone);
                 $phone = formatPhoneNumber($phone);
                 //echo "phone: ".$phone.PHP_EOL;
 
