@@ -21,13 +21,14 @@ require_once '../env.php';
                     method="post">
                     <div class="form-group mt-3">
                             <select class="form-select" name="url">
-                                <option value="https://www.vetropack.com/en">VetroPack</option>
-                                <option value="https://www.kniha-jizd-zdarma.cz/cs/">Kniha-Jizd</option>
-                                <option value="https://www.logbookie.eu/cs/">Logbookie</option>
-                                <option value="https://www.crm-zdarma.cz/cs/">CRM-zdarma</option>
-                                <option value="https://www.cez.cz/cs/">CEZ</option>
-                                <option value="https://igloonet.cz/">Igloonet</option>
-                                <option value="https://portal.expanzo.com/">Expanzo</option>
+                                <option value="https://www.vetropack.com/en/">VetroPack</option>
+                                <option value="https://www.kniha-jizd-zdarma.cz">Kniha-Jizd</option>
+                                <option value="https://www.logbookie.eu">Logbookie</option>
+                                <option value="https://www.crm-zdarma.cz/cs">CRM-zdarma</option>
+                                <option value="https://www.cez.cz/cs">CEZ</option>
+                                <option value="https://igloonet.cz">Igloonet</option>
+                                <option value="https://portal.expanzo.com">Expanzo</option>
+                                <option value="https://www.i-runs.com">i-runs</option>
                             </select>
                     </div>
 
@@ -53,11 +54,29 @@ require_once '../env.php';
             mmuo.registerEventListeners()
 
             document.addEventListener("myevent", (event) => {
+                const data = event.detail.data.message;
+                console.log(data)
+
+                setTimeout(function(){
+
+                
+                const box = document.querySelector(".success")
+
+                box.replaceChildren();
+
+                var emailParagraph = document.createElement("p");
+                emailParagraph.innerHTML = `Emails Found: ${data.emails}`
+                box.appendChild(emailParagraph);
+
+                var emailParagraph = document.createElement("p");
+                emailParagraph.innerHTML = `Phone Numbers Found: ${data.phones}`
+                box.appendChild(emailParagraph);
+            }, 2000);
+
+
                 console.log("I'm listening on a custom event");
-                console.log(event);
+                //console.log(event.detail.data.message);
             });
-
-
         });
     </script>
 
