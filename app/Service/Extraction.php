@@ -13,11 +13,19 @@ class Extraction
 
     public function extractEmail(Array &$emails): void
     {
-        $search = ["mailto:", "Email:", 'Email', ' ', 'mail'];
+        $search = [
+            "mailto:", 
+            "Email:", 
+            'Email', 
+            ' ', 
+            'mail',
+        ];
 
         // Define XPath expressions to locate email details 
         $emailXPath = [
             '//a[contains(@href, "mailto:")]',
+            '//a[contains(text(), "@")]',
+            '//p[contains(text(), "@")]',
             '//p[contains(text(), "Mail:")]',
             '//p[contains(text(), "Email")]',
             '//li[contains(text(), "Email:")]'
@@ -44,10 +52,21 @@ class Extraction
 
     public function extractPhone(Array &$phones): void
     {
-        $search = ["tel:", "Telefon", 'Phone', ' ', "Telephone", ':'];
+        $search = [
+            "tel:", 
+            "Telefon", 
+            'Phone', 
+            ' ', 
+            "Telephone", 
+            ':', 
+            "Tel",
+        ];
 
         $phoneXPath = [
             '//a[contains(@href, "tel:")]',
+            '//a[contains(@text(), "Tel:")]',
+            '//p[contains(text(), "Tel:")]',
+            '//p[contains(text(), "+")]',
             '//p[contains(text(), "Phone:")]',
             '//p[contains(text(), "Phone")]',
             '//li[contains(text(), "Telefon")]',
@@ -61,7 +80,7 @@ class Extraction
         {
             $phoneNodes = $this->xpath->query($path);
             
-            foreach ($phoneNodes as $node) 
+            foreach ($phoneNodes as $node)
             {
                 $phone = !empty($node->getAttribute('href')) ? $node->getAttribute('href') : $node->textContent;
                 $phone = str_replace($search, '', $phone);

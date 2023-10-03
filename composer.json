@@ -2,13 +2,13 @@
     "require": {
         "sirmekus/zam": "^2.0",
         "spatie/crawler": "^8.0",
-        "symfony/dom-crawler": "^6.3",
-        "symfony/css-selector": "^6.3"
+        "symfony/dom-crawler": "^6.3"
     },
     "autoload": {
         "files": [
-            "app/helper.php",
-            "env.php"
+            "env.php",
+            "app/error_controller.php",
+            "app/helper.php"
            ],
         "psr-4": {
             "App\\": "app/"

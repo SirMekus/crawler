@@ -19,6 +19,8 @@ class Crawler extends CrawlObserver
     public Array $emails = [];
 
     public Array $phones = [];
+
+    public Array $urls = [];
     /*
      * Called when the crawler will crawl the url.
      */
@@ -37,6 +39,9 @@ class Crawler extends CrawlObserver
         string $linkText = null,
     ): void
     {
+        //echo "crawling {$url} <br/>".PHP_EOL;
+        $this->urls[]= $url;
+        
         try
         {
             // Create a new DOMDocument
@@ -47,9 +52,9 @@ class Crawler extends CrawlObserver
 
             $extractor = new Extraction($doc);
 
-            $extractor->extractEmail($this->emails);
+            $extractor->extractEmail($this->emails, $url);
 
-            $extractor->extractPhone($this->phones);
+            $extractor->extractPhone($this->phones, $url);
         }
         catch(ValueError $error)
         {
@@ -96,6 +101,7 @@ class Crawler extends CrawlObserver
         $this->response = [
             'emails'=>$emails,
             'phones'=>$phones,
+            'links'=>$this->urls,
         ];
     }
 }

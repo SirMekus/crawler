@@ -7,6 +7,8 @@ use App\Service\Observer\Crawler as CustomCrawler;
 use \Spatie\Crawler\Crawler;
 use Spatie\Crawler\CrawlQueues\ArrayCrawlQueue;
 use Spatie\Crawler\CrawlProfiles\CrawlSubdomains;
+use Spatie\Crawler\CrawlProfiles\CrawlAllUrls;
+use Spatie\Crawler\CrawlProfiles\CrawlInternalUrls;
 use GuzzleHttp\RequestOptions;
 
 class CrawlerService
@@ -23,13 +25,15 @@ class CrawlerService
 
         $this->crawler = Crawler::create([
             RequestOptions::COOKIES => true,
-            RequestOptions::CONNECT_TIMEOUT => 10,
-            RequestOptions::TIMEOUT => 30,
-            RequestOptions::ALLOW_REDIRECTS => false,
+            //RequestOptions::CONNECT_TIMEOUT => 10,
+            //RequestOptions::TIMEOUT => 50,
+            RequestOptions::ALLOW_REDIRECTS => true,
         ])
                                 ->setDefaultScheme('https')
                                 ->setCrawlObserver($this->crawlerObserver);
     }
+
+
 
     public function acceptNofollowLinks():CrawlerService
     {
@@ -59,9 +63,16 @@ class CrawlerService
         return $this;
     }
 
-    public function setCrawlProfile():CrawlerService
+    public function setCrawlProfile($profile=null):CrawlerService
     {
-        $this->crawler->setCrawlProfile((new CrawlSubdomains($this->url)));
+        $expressionResult = match ($profile) {
+            'all' => (new CrawlAllUrls()),
+            'internal' => (new CrawlInternalUrls($this->url)),
+            'subdomain' => (new CrawlSubdomains($this->url)),
+            default => (new CrawlSubdomains($this->url)),
+        };
+
+        $this->crawler->setCrawlProfile($expressionResult);
 
         return $this;
     }
@@ -80,10 +91,17 @@ class CrawlerService
         return $this;
     }
 
+    public function setUserAgent($userAgent)
+    {
+        $this->crawler->setUserAgent($userAgent);
+
+        return $this;
+    }
+
     public function crawl()
     {
         $this->crawler->startCrawling($this->url);
-
+//
         return $this->crawlerObserver->response;
     }
 
