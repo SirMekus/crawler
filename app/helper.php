@@ -15,12 +15,17 @@ function formatPhoneNumber($phoneNumber)
     $phoneNumber = preg_replace('/[^0-9]/','',$phoneNumber);
 
     if(strlen($phoneNumber) > 10) {
-        $countryCode = substr($phoneNumber, 0, strlen($phoneNumber)-10);
-        $areaCode = substr($phoneNumber, -10, 3);
-        $nextThree = substr($phoneNumber, -7, 3);
-        $lastFour = substr($phoneNumber, -4, 4);
+		if(strlen($phoneNumber) == 11 and str_starts_with($phoneNumber, '0')) {
+			//do nothing as it is a Nigerian number likely
+		}
+		else{
+			$countryCode = substr($phoneNumber, 0, strlen($phoneNumber)-10);
+            $areaCode = substr($phoneNumber, -10, 3);
+            $nextThree = substr($phoneNumber, -7, 3);
+            $lastFour = substr($phoneNumber, -4, 4);
 
-        $phoneNumber = '+'.$countryCode.' ('.$areaCode.') '.$nextThree.'-'.$lastFour;
+            $phoneNumber = '+'.$countryCode.' ('.$areaCode.') '.$nextThree.'-'.$lastFour;
+		}
     }
     else if(strlen($phoneNumber) == 10) {
         $areaCode = substr($phoneNumber, 0, 3);
@@ -37,6 +42,47 @@ function formatPhoneNumber($phoneNumber)
     }
 
     return $phoneNumber;
+}
+
+function extractEmail($string)
+{
+	preg_match_all("/[\._a-zA-Z0-9-]+@[\._a-zA-Z0-9-]+/i", $string, $matches);
+	return $matches[0][0];
+}
+
+function extractPhoneNumber($string): Array
+{
+	$keywords = preg_split("/[a-zA-Z,]+/", $string);
+
+	return $keywords;
+}
+
+function getXpath(): Array
+{
+	return [
+		'phone'=>[
+            '//a[contains(@href, "tel:")]',
+            '//a[contains(@text(), "Tel:")]',
+            '//span[contains(@text(), "Tel:")]',
+            '//span[contains(@text(), "tel:")]',
+            '//p[contains(text(), "Tel:")]',
+            '//p[contains(text(), "+")]',
+            '//p[contains(text(), "Phone:")]',
+            '//p[contains(text(), "Phone")]',
+            '//li[contains(text(), "Telefon")]',
+            '//li[contains(text(), "Telephone")]',
+            '//p[contains(text(), "Telephone:")]',
+            '//p[contains(text(), "Telephone")]',
+        ],
+		'email'=>[
+            '//a[contains(@href, "mailto:")]',
+            '//a[contains(text(), "@")]',
+            '//p[contains(text(), "@")]',
+            '//p[contains(text(), "Mail:")]',
+            '//p[contains(text(), "Email")]',
+            '//li[contains(text(), "Email:")]'
+        ]
+	];
 }
 
 function vite()

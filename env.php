@@ -8,7 +8,7 @@ define( 'APP_URL', 'http://localhost/crawler/');
 define( 'VITE_URL', 'http://localhost:5173/');
 
 //This defines which asset vite will serve
-define( 'APP_MODE', 'production');
+define( 'APP_MODE', 'local');
 
 define( 'TIME_OUT', 500);
 ?>

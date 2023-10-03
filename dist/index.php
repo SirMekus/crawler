@@ -7,6 +7,8 @@ require_once '../vendor/autoload.php';
 
 <head>
     <title>Crawler</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php
     vite()
     ?>
@@ -16,7 +18,7 @@ require_once '../vendor/autoload.php';
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h1>Web Crawler</h1>
+                <h1>Site Crawler</h1>
 
                 <form data-bc="myevent" id='form' action="<?php echo APP_URL."app/crawl.php"; ?>" 
                     method="post">
@@ -48,8 +50,8 @@ require_once '../vendor/autoload.php';
                             <label>Crawl Type</label>
                             <select class="form-select" name="crawl_type">
                                 <option value="all">Crawl All URls (including external sites)</option>
-                                <option value="internal">Crawl Internal URLs</option>
-                                <option selected value="subdomain">Crawl Sub-Domains/Internal URls</option>
+                                <option value="internal">Crawl Internal Pages Only</option>
+                                <option selected value="subdomain">Crawl Sub-Domains And Internal Pages</option>
                             </select>
                     </div>
 
@@ -80,7 +82,7 @@ require_once '../vendor/autoload.php';
                     <div class="form-group mt-3">
                         <div>
                             <div>
-                                <input class="btn btn-primary btn-lg w-100" type="submit" value="Submit" />
+                                <input class="btn btn-primary btn-lg w-100" type="submit" value="Let's Crawl" />
                             </div>
                         </div>
                     </div>

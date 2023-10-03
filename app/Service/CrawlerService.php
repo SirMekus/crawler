@@ -91,7 +91,7 @@ class CrawlerService
         return $this;
     }
 
-    public function setUserAgent($userAgent)
+    public function setUserAgent($userAgent):CrawlerService
     {
         $this->crawler->setUserAgent($userAgent);
 
@@ -101,7 +101,7 @@ class CrawlerService
     public function crawl()
     {
         $this->crawler->startCrawling($this->url);
-//
+
         return $this->crawlerObserver->response;
     }
 

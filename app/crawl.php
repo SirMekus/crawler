@@ -3,8 +3,6 @@ require_once '../vendor/autoload.php';
 
 use App\Service\CrawlerService;
 
-// set_time_limit(500);
-
 $url = request(["name"=>"url", 'method'=>'post', "message"=>"Please provide a URL to crawl"]);
 
 $robot = request(["name"=>"robot", 'method'=>'post', "nullable"=>true]);

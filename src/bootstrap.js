@@ -28,7 +28,6 @@ on('#other', 'click', function(event){
 
 document.addEventListener("myevent", (event) => {
     const data = event.detail.data.message;
-    console.log(data)
 
     setTimeout(function(){
         const box = document.querySelector(".success")
@@ -48,20 +47,27 @@ document.addEventListener("myevent", (event) => {
         }
 
         if(data?.emails){
-            let emailParagraph = document.createElement("p");
-            emailParagraph.classList.add('text-home');
-            emailParagraph.classList.add('fw-bold');
-            emailParagraph.classList.add('email-div');
-            emailParagraph.innerHTML = `Emails Found: ${Object.values(data?.emails).toString()}`
-            box.appendChild(emailParagraph);
+            let email
+            for(email in data.emails){
+                let emailParagraph = document.createElement("span");
+                emailParagraph.classList.add('text-home');
+                emailParagraph.classList.add('fw-bold');
+                emailParagraph.classList.add('d-block');
+                emailParagraph.innerHTML = `Email Found: ${data?.emails[email]}`
+                box.appendChild(emailParagraph);
+            }
         }
 
         if(data?.phones){
-            let phoneParagraph = document.createElement("p");
-            phoneParagraph.classList.add('text-black');
-            phoneParagraph.classList.add('fw-bold');
-            phoneParagraph.innerHTML = `Phone Numbers Found: ${Object.values(data?.phones).toString()}`
-            box.appendChild(phoneParagraph);
+            let phone
+            for(phone in data.phones){
+                let phoneParagraph = document.createElement("span");
+                phoneParagraph.classList.add('text-black');
+                phoneParagraph.classList.add('fw-bold');
+                phoneParagraph.classList.add('d-block');
+                phoneParagraph.innerHTML = `Phone Number Found: ${data?.phones[phone]}`
+                box.appendChild(phoneParagraph);
+            }
         }
     }, 1000);
 });

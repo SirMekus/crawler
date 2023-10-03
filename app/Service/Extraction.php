@@ -13,26 +13,10 @@ class Extraction
 
     public function extractEmail(Array &$emails): void
     {
-        $search = [
-            "mailto:", 
-            "Email:", 
-            'Email', 
-            ' ', 
-            'mail',
-        ];
-
-        // Define XPath expressions to locate email details 
-        $emailXPath = [
-            '//a[contains(@href, "mailto:")]',
-            '//a[contains(text(), "@")]',
-            '//p[contains(text(), "@")]',
-            '//p[contains(text(), "Mail:")]',
-            '//p[contains(text(), "Email")]',
-            '//li[contains(text(), "Email:")]'
-        ];
+        $emailXPath = getXpath();
 
         // Extract email addresses
-        foreach($emailXPath as $path)
+        foreach($emailXPath['email'] as $path)
         {
             $emailNodes = $this->xpath->query($path);
             
@@ -40,8 +24,8 @@ class Extraction
             {
                 $email = !empty($node->getAttribute('href')) ? $node->getAttribute('href') : $node->textContent;
                 
-                $email = str_replace($search, '', $email);
-
+                $email = extractEmail($email);
+                
                 if((!in_array($email, $emails)) and (!empty($email)))
                 {
                     $emails[] = $email;
@@ -56,39 +40,36 @@ class Extraction
             "tel:", 
             "Telefon", 
             'Phone', 
-            ' ', 
+            'Phones', 
             "Telephone", 
             ':', 
             "Tel",
         ];
 
-        $phoneXPath = [
-            '//a[contains(@href, "tel:")]',
-            '//a[contains(@text(), "Tel:")]',
-            '//p[contains(text(), "Tel:")]',
-            '//p[contains(text(), "+")]',
-            '//p[contains(text(), "Phone:")]',
-            '//p[contains(text(), "Phone")]',
-            '//li[contains(text(), "Telefon")]',
-            '//li[contains(text(), "Telephone")]',
-            '//p[contains(text(), "Telephone:")]',
-            '//p[contains(text(), "Telephone")]',
-        ];
+        $phoneXPath = getXpath();
 
         // Extract phone numbers
-        foreach($phoneXPath as $path)
+        foreach($phoneXPath['phone'] as $path)
         {
             $phoneNodes = $this->xpath->query($path);
             
             foreach ($phoneNodes as $node)
             {
                 $phone = !empty($node->getAttribute('href')) ? $node->getAttribute('href') : $node->textContent;
+                
                 $phone = str_replace($search, '', $phone);
-                $phone = formatPhoneNumber($phone);
 
-                if((!in_array($phone, $phones)) and (!empty($phone)))
+                //In case it is a string where multiple numbers are joined together. E,g, 090*** and 080***, 0803***. It splits them and removes the non-digits. 
+                $phoneNumbers = extractPhoneNumber($phone);
+
+                foreach ($phoneNumbers as $number)
                 {
-                    $phones[] = $phone;
+                    $phone = formatPhoneNumber($number);
+
+                    if((!in_array($phone, $phones)) and (!empty($phone)))
+                    {
+                        $phones[] = $phone;
+                    }
                 }
             }
         }
