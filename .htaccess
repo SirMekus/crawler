@@ -3,3 +3,6 @@ RewriteBase /
 
 
 #RewriteRule ada ada.php [NC,L]
+
+# Disable Directory Browsing
+Options All -Indexes
