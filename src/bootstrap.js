@@ -17,12 +17,12 @@ on('#other', 'click', function(event){
     pre_filled.classList.toggle('d-none');
 
     if(checked){
-        pre_filled.children[0].setAttribute('disabled', 'disabled');
-        manual.children[0].removeAttribute('disabled');
+        pre_filled.children[1].setAttribute('disabled', 'disabled');
+        manual.children[1].removeAttribute('disabled');
     }
     else{
-        manual.children[0].setAttribute('disabled', 'disabled');
-        pre_filled.children[0].removeAttribute('disabled');
+        manual.children[1].setAttribute('disabled', 'disabled');
+        pre_filled.children[1].removeAttribute('disabled');
     }
 })
 
@@ -31,8 +31,6 @@ document.addEventListener("myevent", (event) => {
 
     setTimeout(function(){
         const box = document.querySelector(".success")
-
-        //box.replaceChildren();
 
         if(data?.links){
             let link
